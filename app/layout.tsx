@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Google_Sans } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-const googleSans = Google_Sans({
+const inter = Inter({
 	subsets: ["latin"],
 	weight: ["400", "500", "600", "700"],
 });
@@ -18,10 +18,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html
-			lang="en"
-			className={`${googleSans.className} h-full antialiased`}
-		>
+		<html lang="en" className={`${inter.className} h-full antialiased`}>
 			<body className="min-h-full flex flex-col bg-black">
 				{children}
 			</body>
