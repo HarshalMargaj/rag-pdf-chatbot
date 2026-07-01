@@ -1,6 +1,6 @@
 "use client";
 
-import UploadZone from "@/components/LeftPanel/UploadZone";
+import UploadZone from "@/components/UploadZone";
 import { usePDFStore } from "@/stores/store";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
