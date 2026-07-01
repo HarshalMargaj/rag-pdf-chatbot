@@ -1,3 +1,3 @@
 export default function Home() {
-	return <div>RAG pdf chatbot</div>;
+	return <div>RAG PDF ChatBot</div>;
 }
