@@ -1,12 +1,17 @@
 "use client";
 
 import UploadZone from "@/components/LeftPanel/UploadZone";
+import { usePDFStore } from "@/stores/store";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Home() {
+	const setFilename = usePDFStore(state => state.setFilename);
 	const [stage, setStage] = useState<"upload" | "processing">("upload");
 	const [file, setFile] = useState<File>();
+
+	setFilename(file?.name);
+
 	const router = useRouter();
 
 	console.log(file);

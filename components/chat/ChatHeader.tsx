@@ -1,11 +1,13 @@
 "use client";
 
+import { usePDFStore } from "@/stores/store";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { BiSolidSquareRounded } from "react-icons/bi";
 import { GoDotFill } from "react-icons/go";
 
 const ChatHeader = () => {
+	const filename = usePDFStore(state => state.filename);
 	const router = useRouter();
 
 	return (
@@ -13,7 +15,7 @@ const ChatHeader = () => {
 			<div className="flex items-center gap-4 ">
 				<BiSolidSquareRounded size={32} className="text-orange-950" />
 				<div>
-					<div className="text-slate-100">CV_Harshal_Margaj.pdf</div>
+					<div className="text-slate-100">{filename}</div>
 					<div className="text-slate-500 text-sm flex items-center gap-2">
 						<GoDotFill className="text-green-500" />
 						Indexed and ready
