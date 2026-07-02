@@ -4,12 +4,10 @@ import UploadZone from "@/components/UploadZone";
 
 import axios from "axios";
 
-import { usePDFStore } from "@/stores/store";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Home() {
-	const setFilename = usePDFStore(state => state.setFilename);
 	const [stage, setStage] = useState<"upload" | "processing">("upload");
 	const [file, setFile] = useState<File>();
 
@@ -19,7 +17,6 @@ export default function Home() {
 
 	const handleFile = async (f: File) => {
 		setFile(f);
-		setFilename(f?.name);
 		setStage("processing");
 
 		const formData = new FormData();
