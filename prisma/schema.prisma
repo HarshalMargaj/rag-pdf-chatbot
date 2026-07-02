@@ -1,0 +1,30 @@
+
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Document {
+  id          String        @id @default(uuid())
+  filename    String
+
+  createdAt   DateTime      @default(now())
+
+  chunks      DocumentChunks[]
+}
+
+model DocumentChunks {
+  id          String          @id @default(uuid())
+  content     String
+  pageNumber  Int
+
+  createdAt   DateTime        @default(now())
+  document    Document @relation(fields: [documentId], references: [id])
+  documentId  String
+}
+
