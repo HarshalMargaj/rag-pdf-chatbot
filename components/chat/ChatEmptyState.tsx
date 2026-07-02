@@ -1,7 +1,8 @@
 "use client";
 
-import { usePDFStore } from "@/stores/store";
-import React from "react";
+interface ChatEmptyStateProps {
+	fileName: string;
+}
 
 const suggestedQuestions = [
 	"Summarize this document in simple terms",
@@ -10,9 +11,7 @@ const suggestedQuestions = [
 	"List all key terms and their definitions",
 ];
 
-const ChatEmptyState = () => {
-	const filename = usePDFStore(state => state.filename);
-
+const ChatEmptyState = ({ fileName }: ChatEmptyStateProps) => {
 	return (
 		<div className="flex flex-1 flex-col items-center justify-center px-10 text-center">
 			<div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-900/40 text-orange-400 mb-4">
@@ -22,7 +21,7 @@ const ChatEmptyState = () => {
 				Ready to chat!
 			</h2>
 			<p className="max-w-xs text-sm text-slate-500 truncate">
-				{filename}
+				{fileName}
 			</p>
 			<p className="mt-1 max-w-xs text-xs text-slate-600">
 				Ask anything about this document

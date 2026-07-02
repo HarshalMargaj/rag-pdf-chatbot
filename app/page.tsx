@@ -1,8 +1,10 @@
 "use client";
 
 import UploadZone from "@/components/UploadZone";
-import { usePDFStore } from "@/stores/store";
+
 import axios from "axios";
+
+import { usePDFStore } from "@/stores/store";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -25,7 +27,7 @@ export default function Home() {
 		const response = await axios.post("/api/upload", formData);
 		console.log(response);
 
-		router.push("/chat");
+		router.push(`/chat/${response.data.documentId}`);
 	};
 	return (
 		<div>
