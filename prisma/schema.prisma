@@ -22,7 +22,7 @@ model DocumentChunks {
   id          String          @id @default(uuid())
   content     String
   pageNumber  Int
-
+  embedding   Unsupported("vector(1536)")?
   createdAt   DateTime        @default(now())
   document    Document @relation(fields: [documentId], references: [id])
   documentId  String
