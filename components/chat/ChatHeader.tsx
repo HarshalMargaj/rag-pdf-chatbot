@@ -6,7 +6,7 @@ import { BiSolidSquareRounded } from "react-icons/bi";
 import { GoDotFill } from "react-icons/go";
 
 interface ChatHeaderProps {
-	fileName: string;
+	fileName: string | undefined;
 }
 
 const ChatHeader = ({ fileName }: ChatHeaderProps) => {

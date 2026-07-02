@@ -1,7 +1,7 @@
 "use client";
 
 interface ChatEmptyStateProps {
-	fileName: string;
+	fileName: string | undefined;
 }
 
 const suggestedQuestions = [
