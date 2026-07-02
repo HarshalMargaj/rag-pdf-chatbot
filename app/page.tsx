@@ -2,6 +2,7 @@
 
 import UploadZone from "@/components/UploadZone";
 import { usePDFStore } from "@/stores/store";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -10,19 +11,21 @@ export default function Home() {
 	const [stage, setStage] = useState<"upload" | "processing">("upload");
 	const [file, setFile] = useState<File>();
 
-	setFilename(file?.name);
-
 	const router = useRouter();
 
 	console.log(file);
 
-	const handleFile = (f: File) => {
+	const handleFile = async (f: File) => {
 		setFile(f);
+		setFilename(f?.name);
 		setStage("processing");
 
-		setTimeout(() => {
-			router.push("/chat");
-		}, 2500);
+		const formData = new FormData();
+		formData.append("file", f);
+		const response = await axios.post("/api/upload", formData);
+		console.log(response);
+
+		router.push("/chat");
 	};
 	return (
 		<div>
