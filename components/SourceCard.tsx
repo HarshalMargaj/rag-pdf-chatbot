@@ -1,28 +1,52 @@
-function SourceCard({ source }) {
-	const parts = source.highlight
-		? source.text.split(source.highlight)
-		: [source.text];
+interface SourceCardProps {
+	source: {
+		content: string;
+		pageNumber: number;
+		similarity: number;
+	};
+	highlightText: string;
+}
+
+function SourceCard({ source, highlightText }: SourceCardProps) {
+	const keywords = (highlightText || "")
+		.split(/\s+/)
+		.map(w => w.replace(/[^\w]/g, ""))
+		.filter(w => w.length > 3);
+
+	const regex = keywords.length
+		? new RegExp(`(${keywords.join("|")})`, "gi")
+		: null;
+	const contentParts = regex ? source.content.split(regex) : [source.content];
+
+	// const hasMatch = keywords.some(kw =>
+	// 	source.content.toLowerCase().includes(kw.toLowerCase()),
+	// );
+
+	// if (highlightText && !hasMatch) return null; // koi match nahi to card hi mat dikhाओ
 	return (
 		<div className="rounded-xl border border-slate-800 p-3">
 			<div className="mb-2 flex items-center justify-between">
 				<span className="rounded-md bg-violet-500/10 px-2 py-0.5 text-[11px] font-medium text-violet-400">
-					Page {source.page}
+					Page {source.pageNumber}
 				</span>
 				<span className="text-[11px] text-slate-600">
-					{source.score.toFixed(2)} match
+					{source.similarity.toFixed(2)} match
 				</span>
 			</div>
-			<p className="m-0 text-[12.5px] leading-relaxed text-slate-400">
-				{source.highlight ? (
-					<>
-						{parts[0]}
-						<mark className="rounded bg-violet-500/20 px-0.5 text-slate-200">
-							{source.highlight}
+			<p className="m-0 text-sm leading-relaxed text-slate-400 line-clamp-4">
+				{contentParts.map((part, i) =>
+					keywords.some(
+						kw => kw.toLowerCase() === part.toLowerCase(),
+					) ? (
+						<mark
+							key={i}
+							className="bg-violet-500/30 text-violet-200 rounded px-0.5"
+						>
+							{part}
 						</mark>
-						{parts[1]}
-					</>
-				) : (
-					source.text
+					) : (
+						part
+					),
 				)}
 			</p>
 		</div>

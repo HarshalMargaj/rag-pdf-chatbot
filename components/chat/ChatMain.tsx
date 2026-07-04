@@ -43,6 +43,11 @@ const ChatMain = ({ fileName, documentId }: ChatMainProps) => {
 	const sources =
 		toolPart?.state === "output-available" ? toolPart?.output : [];
 
+	const textPart = latestAssistantMessage?.parts.find(
+		(part): part is any => part.type === "text",
+	);
+	const answerText = textPart?.state === "done" ? textPart.text : "";
+
 	return (
 		<div className="flex flex-1">
 			<div className="flex-1 flex flex-col">
@@ -60,7 +65,7 @@ const ChatMain = ({ fileName, documentId }: ChatMainProps) => {
 					stop={stop}
 				/>
 			</div>
-			<SourcesPanel sources={sources} />
+			<SourcesPanel sources={sources} answer={answerText} />
 		</div>
 	);
 };
