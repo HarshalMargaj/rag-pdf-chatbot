@@ -1,13 +1,13 @@
 import { db } from "@/lib/db";
-// import { splitIntoChunks } from "@/lib/SplitIntoChunks";
+import { splitIntoChunks } from "@/lib/SplitIntoChunks";
 import { NextResponse } from "next/server";
-// import { embedMany } from "ai";
-// import { extractText, getDocumentProxy } from "unpdf";
-// import { openai } from "@ai-sdk/openai";
-// import { randomUUID } from "crypto";
+import { embedMany } from "ai";
+import { extractText, getDocumentProxy } from "unpdf";
+import { openai } from "@ai-sdk/openai";
+import { randomUUID } from "crypto";
 
 // OpenAI embedding model — 1536 dimensions
-// const embeddingModel = openai.embeddingModel("text-embedding-3-small");
+const embeddingModel = openai.embeddingModel("text-embedding-3-small");
 
 export async function POST(req: Request) {
 	try {
@@ -20,51 +20,51 @@ export async function POST(req: Request) {
 			data: { filename: file.name },
 		});
 
-		// // ── Step 3: Extract text from each page ────────────────────────────
-		// const arrayBuffer = await file.arrayBuffer();
-		// const pdf = await getDocumentProxy(new Uint8Array(arrayBuffer));
-		// const { text } = await extractText(pdf, { mergePages: false });
-		// // mergePages: false → gives us text per page (needed for page citations)
+		// ── Step 3: Extract text from each page ────────────────────────────
+		const arrayBuffer = await file.arrayBuffer();
+		const pdf = await getDocumentProxy(new Uint8Array(arrayBuffer));
+		const { text } = await extractText(pdf, { mergePages: false });
+		// mergePages: false → gives us text per page (needed for page citations)
 
-		// // ── Step 4: Split each page into smaller chunks ─────────────────────
-		// const chunkRecords: { content: string; pageNumber: number }[] = [];
+		// ── Step 4: Split each page into smaller chunks ─────────────────────
+		const chunkRecords: { content: string; pageNumber: number }[] = [];
 
-		// text.forEach((pageText, index) => {
-		// 	const pageChunks = splitIntoChunks(pageText);
-		// 	pageChunks.forEach(chunk => {
-		// 		chunkRecords.push({ content: chunk, pageNumber: index + 1 });
-		// 	});
-		// });
+		text.forEach((pageText, index) => {
+			const pageChunks = splitIntoChunks(pageText);
+			pageChunks.forEach(chunk => {
+				chunkRecords.push({ content: chunk, pageNumber: index + 1 });
+			});
+		});
 
-		// // ── Step 5: Generate embeddings for all chunks in one call ──────────
-		// const { embeddings } = await embedMany({
-		// 	model: embeddingModel,
-		// 	values: chunkRecords.map(c => c.content),
-		// });
-		// // embedMany is more efficient than calling embed() in a loop
+		// ── Step 5: Generate embeddings for all chunks in one call ──────────
+		const { embeddings } = await embedMany({
+			model: embeddingModel,
+			values: chunkRecords.map(c => c.content),
+		});
+		// embedMany is more efficient than calling embed() in a loop
 
-		// // ── Step 6: Store chunks + vectors in DB ───────────────────────────
-		// for (let i = 0; i < chunkRecords.length; i++) {
-		// 	const vector = `[${embeddings[i].join(",")}]`;
+		// ── Step 6: Store chunks + vectors in DB ───────────────────────────
+		for (let i = 0; i < chunkRecords.length; i++) {
+			const vector = `[${embeddings[i].join(",")}]`;
 
-		// 	// raw SQL needed because Prisma doesn't support pgvector natively
-		// 	await db.$executeRaw`
-		// 		INSERT INTO "DocumentChunks" (
-		// 			id,
-		// 			content,
-		// 			"pageNumber",
-		// 			embedding,
-		// 			"documentId"
-		// 		)
-		// 		VALUES (
-		// 			${randomUUID()},
-		// 			${chunkRecords[i].content},
-		// 			${chunkRecords[i].pageNumber},
-		// 			${vector}::vector,
-		// 			${document.id}
-		// 		)
-		// 	`;
-		// }
+			// raw SQL needed because Prisma doesn't support pgvector natively
+			await db.$executeRaw`
+				INSERT INTO "DocumentChunks" (
+					id,
+					content,
+					"pageNumber",
+					embedding,
+					"documentId"
+				)
+				VALUES (
+					${randomUUID()},
+					${chunkRecords[i].content},
+					${chunkRecords[i].pageNumber},
+					${vector}::vector,
+					${document.id}
+				)
+			`;
+		}
 
 		// ── Step 7: Return documentId to redirect user to chat ─────────────
 		return NextResponse.json({

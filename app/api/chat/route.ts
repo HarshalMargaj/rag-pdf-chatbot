@@ -6,6 +6,7 @@ import {
 	isStepCount,
 	createUIMessageStreamResponse,
 	toUIMessageStream,
+	convertToModelMessages,
 } from "ai";
 import { openai } from "@ai-sdk/openai";
 import { chatModel } from "@/lib/ai/chat-model";
@@ -20,9 +21,9 @@ export async function POST(req: Request) {
 
 		const result = streamText({
 			model: chatModel,
-			messages,
+			messages: await convertToModelMessages(messages),
 			stopWhen: isStepCount(5),
-			system: `You are a helpful assistant that answers questions about an uploaded PDF document. Always use the getInformation tool to search the document before answering. If the tool doesn't return relevant information, say you don't know — don't make things up. When you answer, mention which page(s) the information came from.`,
+			system: `You are a helpful assistant that answers questions about an uploaded PDF document. Use the getInformation tool to search the document when needed, then answer the user's question in a natural, conversational tone — as if you're explaining it to someone, not copy-pasting resume bullet points. Rewrite the information in your own words. Do not use markdown formatting like bold, bullet points, or dashes unless the user specifically asks for a list. Keep answers concise and conversational. Do not mention page numbers or cite sources in your answer — the source passages are already shown separately to the user in a sidebar.`,
 			tools: {
 				getInformation: tool({
 					description:
@@ -49,16 +50,22 @@ export async function POST(req: Request) {
                             select
                                 content,
                                 "pageNumber",
-                                1 - (embedding <=> ${vector}::vector) AS similarity
+                                -(embedding <#> ${vector}::vector) AS similarity
                             from "DocumentChunks"
                             where "documentId" = ${documentId}
-                            ORDER BY embedding <=> ${vector}::vector
+                            ORDER BY embedding <#> ${vector}::vector
 							LIMIT 5
                         `;
 
 						return chunks;
 					},
 				}),
+			},
+			onStepFinish: step => {
+				console.log("STEP FINISHED:", step.finishReason, step.text);
+			},
+			onError: error => {
+				console.error("STREAM ERROR:", error);
 			},
 		});
 
