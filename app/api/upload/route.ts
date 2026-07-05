@@ -5,6 +5,7 @@ import { embedMany } from "ai";
 import { extractText, getDocumentProxy } from "unpdf";
 import { openai } from "@ai-sdk/openai";
 import { randomUUID } from "crypto";
+import { sanitizeText } from "@/lib/SanitizeText";
 
 // OpenAI embedding model — 1536 dimensions
 const embeddingModel = openai.embeddingModel("text-embedding-3-small");
@@ -30,7 +31,8 @@ export async function POST(req: Request) {
 		const chunkRecords: { content: string; pageNumber: number }[] = [];
 
 		text.forEach((pageText, index) => {
-			const pageChunks = splitIntoChunks(pageText);
+			const cleanedText = sanitizeText(pageText);
+			const pageChunks = splitIntoChunks(cleanedText);
 			pageChunks.forEach(chunk => {
 				chunkRecords.push({ content: chunk, pageNumber: index + 1 });
 			});

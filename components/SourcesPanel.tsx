@@ -11,7 +11,7 @@ interface SourcesPanelProps {
 
 function SourcesPanel({ sources, answer }: SourcesPanelProps) {
 	return (
-		<aside className="flex w-80 shrink-0 flex-col border-l border-slate-800 bg-slate-900">
+		<aside className="flex w-85 shrink-0 flex-col border-l border-slate-800 bg-slate-900">
 			<div className="border-b border-slate-800 p-4">
 				<h3 className="text-base font-medium text-slate-200">
 					Retrieved chunks

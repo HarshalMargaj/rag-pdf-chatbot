@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 interface SourceCardProps {
 	source: {
 		content: string;
@@ -8,6 +12,7 @@ interface SourceCardProps {
 }
 
 function SourceCard({ source, highlightText }: SourceCardProps) {
+	const [expand, setExpand] = useState(false);
 	const keywords = (highlightText || "")
 		.split(/\s+/)
 		.map(w => w.replace(/[^\w]/g, ""))
@@ -18,11 +23,6 @@ function SourceCard({ source, highlightText }: SourceCardProps) {
 		: null;
 	const contentParts = regex ? source.content.split(regex) : [source.content];
 
-	// const hasMatch = keywords.some(kw =>
-	// 	source.content.toLowerCase().includes(kw.toLowerCase()),
-	// );
-
-	// if (highlightText && !hasMatch) return null; // koi match nahi to card hi mat dikhाओ
 	return (
 		<div className="rounded-xl border border-slate-800 p-3">
 			<div className="mb-2 flex items-center justify-between">
@@ -33,7 +33,9 @@ function SourceCard({ source, highlightText }: SourceCardProps) {
 					{source.similarity.toFixed(2)} match
 				</span>
 			</div>
-			<p className="m-0 text-sm leading-relaxed text-slate-400 line-clamp-4">
+			<p
+				className={`m-0 text-sm leading-relaxed text-slate-400 ${expand ? "" : "line-clamp-6"}`}
+			>
 				{contentParts.map((part, i) =>
 					keywords.some(
 						kw => kw.toLowerCase() === part.toLowerCase(),
@@ -49,8 +51,20 @@ function SourceCard({ source, highlightText }: SourceCardProps) {
 					),
 				)}
 			</p>
+			<button
+				onClick={() => setExpand(!expand)}
+				className="mt-1 text-[11px] text-violet-400 hover:text-violet-300"
+			>
+				{expand ? "Show less" : "Show more"}
+			</button>
 		</div>
 	);
 }
 
 export default SourceCard;
+
+// const hasMatch = keywords.some(kw =>
+// 	source.content.toLowerCase().includes(kw.toLowerCase()),
+// );
+
+// if (highlightText && !hasMatch) return null; // koi match nahi to card hi mat dikhाओ
