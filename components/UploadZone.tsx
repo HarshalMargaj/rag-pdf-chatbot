@@ -1,13 +1,17 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BiSolidSquareRounded } from "react-icons/bi";
+import Documents from "./Documents";
+import { getRecentDocuments } from "@/actions/getRecentDocuments";
+import { Document } from "@/app/generated/prisma/client";
 
 interface UploadScreenProps {
 	onFile: (file: File) => void;
 }
 
 function UploadScreen({ onFile }: UploadScreenProps) {
+	const [documents, setDocuments] = useState<Document[]>([]);
 	const [drag, setDrag] = useState(false);
 	const inputRef = useRef<HTMLInputElement>(null);
 
@@ -22,6 +26,10 @@ function UploadScreen({ onFile }: UploadScreenProps) {
 		const file = e.target.files?.[0];
 		if (file) onFile(file);
 	}
+
+	useEffect(() => {
+		getRecentDocuments().then(setDocuments);
+	}, []);
 
 	return (
 		<div className="flex h-screen w-screen flex-col items-center justify-center bg-slate-950 px-6">
@@ -76,6 +84,8 @@ function UploadScreen({ onFile }: UploadScreenProps) {
 			<p className="mt-6 text-xs text-slate-600">
 				Your PDF is processed locally and never stored on our servers.
 			</p>
+
+			<Documents documents={documents} />
 		</div>
 	);
 }

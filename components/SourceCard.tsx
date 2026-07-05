@@ -53,7 +53,7 @@ function SourceCard({ source, highlightText }: SourceCardProps) {
 			</p>
 			<button
 				onClick={() => setExpand(!expand)}
-				className="mt-1 text-[11px] text-violet-400 hover:text-violet-300"
+				className="mt-1 text-[11px] text-violet-400 hover:text-violet-300 cursor-pointer"
 			>
 				{expand ? "Show less" : "Show more"}
 			</button>
