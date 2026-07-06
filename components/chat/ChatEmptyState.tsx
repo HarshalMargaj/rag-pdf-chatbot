@@ -2,6 +2,7 @@
 
 interface ChatEmptyStateProps {
 	fileName: string | undefined;
+	setUserInput: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const suggestedQuestions = [
@@ -11,7 +12,7 @@ const suggestedQuestions = [
 	"List all key terms and their definitions",
 ];
 
-const ChatEmptyState = ({ fileName }: ChatEmptyStateProps) => {
+const ChatEmptyState = ({ fileName, setUserInput }: ChatEmptyStateProps) => {
 	return (
 		<div className="flex flex-1 flex-col items-center justify-center px-10 text-center">
 			<div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-900/40 text-orange-400 mb-4">
@@ -31,6 +32,7 @@ const ChatEmptyState = ({ fileName }: ChatEmptyStateProps) => {
 				{suggestedQuestions.map((s, index) => (
 					<button
 						key={index}
+						onClick={() => setUserInput(s)}
 						className="rounded-lg border border-slate-800 bg-slate-900 px-3 py-1.5 text-xs text-slate-400 hover:border-slate-600 hover:text-slate-200 transition-colors cursor-pointer"
 					>
 						{s}

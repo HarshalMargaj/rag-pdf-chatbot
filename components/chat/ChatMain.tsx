@@ -55,7 +55,10 @@ const ChatMain = ({ fileName, documentId }: ChatMainProps) => {
 				{messages.length > 0 ? (
 					<ChatScreen messages={messages} status={status} />
 				) : (
-					<ChatEmptyState fileName={fileName} />
+					<ChatEmptyState
+						fileName={fileName}
+						setUserInput={setUserInput}
+					/>
 				)}
 				<ChatInput
 					value={userInput}
