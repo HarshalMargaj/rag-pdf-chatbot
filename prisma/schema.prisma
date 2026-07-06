@@ -16,6 +16,7 @@ model Document {
   createdAt   DateTime      @default(now())
 
   chunks      DocumentChunks[]
+  messages    Message[]
 }
 
 model DocumentChunks {
@@ -24,7 +25,25 @@ model DocumentChunks {
   pageNumber  Int
   embedding   Unsupported("vector(1536)")?
   createdAt   DateTime        @default(now())
-  document    Document @relation(fields: [documentId], references: [id])
+  document    Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
   documentId  String
+
+  @@index([documentId])
 }
 
+enum MessageRole {
+  user
+  assistant
+}
+
+model Message {
+  id          String          @id @default(uuid())
+  documentId  String
+  role        MessageRole
+  parts       Json
+
+  createdAt   DateTime        @default(now())
+  document    Document        @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@index([documentId])
+}
