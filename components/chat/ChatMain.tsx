@@ -8,6 +8,7 @@ import { useChat } from "@ai-sdk/react";
 import SourcesPanel from "../SourcesPanel";
 import { DefaultChatTransport } from "ai";
 import ChatScreen from "./ChatScreen";
+import { saveMessage } from "@/actions/saveMessage";
 
 interface ChatMainProps {
 	fileName: string | undefined;
@@ -30,6 +31,13 @@ const ChatMain = ({ fileName, documentId }: ChatMainProps) => {
 		if (!userInput.trim()) return;
 		sendMessage({ text: userInput });
 		setUserInput("");
+
+		// save user message in db
+		saveMessage({
+			documentId,
+			role: "user",
+			parts: [{ type: "text", text: userInput }],
+		}).catch(error => console.log("Failed to save message: ", error));
 	};
 
 	const latestAssistantMessage = [...messages]
