@@ -1,6 +1,6 @@
 "use client";
 
-import UploadZone from "@/components/UploadZone";
+import UploadZone from "@/components/uploadPanel/UploadZone";
 import axios from "axios";
 
 import { useRouter } from "next/navigation";

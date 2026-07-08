@@ -5,7 +5,7 @@ import ChatHeader from "./ChatHeader";
 import ChatEmptyState from "./ChatEmptyState";
 import ChatInput from "./ChatInput";
 import { useChat } from "@ai-sdk/react";
-import SourcesPanel from "../SourcesPanel";
+import SourcesPanel from "../sourcePanel/SourcesPanel";
 import { DefaultChatTransport, UIMessage } from "ai";
 import ChatScreen from "./ChatScreen";
 import { saveMessage } from "@/actions/saveMessage";
