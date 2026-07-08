@@ -12,6 +12,7 @@ import { openai } from "@ai-sdk/openai";
 import { chatModel } from "@/lib/ai/chat-model";
 import { z } from "zod";
 import { db } from "@/lib/db";
+import { saveMessage } from "@/actions/saveMessage";
 
 const embeddingModel = openai.embeddingModel("text-embedding-3-small");
 
@@ -23,7 +24,7 @@ export async function POST(req: Request) {
 			model: chatModel,
 			messages: await convertToModelMessages(messages),
 			stopWhen: isStepCount(5),
-			system: `You are a helpful assistant that answers questions about an uploaded PDF document. Use the getInformation tool to search the document when needed, then answer the user's question in a natural, conversational tone — as if you're explaining it to someone, not copy-pasting resume bullet points. Rewrite the information in your own words. Do not use markdown formatting like bold, bullet points, or dashes unless the user specifically asks for a list. Keep answers concise and conversational. Do not mention page numbers or cite sources in your answer — the source passages are already shown separately to the user in a sidebar.`,
+			system: "You are a helpful assistant that answers questions about an uploaded PDF document. Use the getInformation tool to search the document when needed, then answer the user's question in a natural, conversational tone — as if you're explaining it to someone, not copy-pasting resume bullet points. Rewrite the information in your own words. Do not use markdown formatting like bold, bullet points, or dashes unless the user specifically asks for a list. Keep answers concise and conversational. Do not mention page numbers or cite sources in your answer — the source passages are already shown separately to the user in a sidebar.",
 			tools: {
 				getInformation: tool({
 					description:
@@ -61,9 +62,6 @@ export async function POST(req: Request) {
 					},
 				}),
 			},
-			onStepFinish: step => {
-				console.log("STEP FINISHED:", step.finishReason, step.text);
-			},
 			onError: error => {
 				console.error("STREAM ERROR:", error);
 			},
@@ -73,6 +71,17 @@ export async function POST(req: Request) {
 			stream: toUIMessageStream({
 				stream: result.stream,
 				originalMessages: messages,
+				onEnd: async ({ responseMessage }) => {
+					try {
+						await saveMessage({
+							documentId,
+							role: "assistant",
+							parts: responseMessage.parts,
+						});
+					} catch (error) {
+						console.log("Failed to save assistant message:", error);
+					}
+				},
 			}),
 		});
 	} catch (error) {

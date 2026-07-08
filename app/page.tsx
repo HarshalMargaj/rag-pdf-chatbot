@@ -19,7 +19,6 @@ export default function Home() {
 		const formData = new FormData();
 		formData.append("file", f);
 		const response = await axios.post("/api/upload", formData);
-		console.log(response);
 
 		router.push(`/chat/${response.data.documentId}`);
 	};

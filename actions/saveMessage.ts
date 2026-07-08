@@ -2,11 +2,12 @@
 
 import { Prisma } from "@/app/generated/prisma/client";
 import { db } from "@/lib/db";
+import { UIMessage } from "ai";
 
 interface SaveMessageProps {
 	documentId: string;
 	role: "user" | "assistant";
-	parts: Prisma.InputJsonValue;
+	parts: UIMessage["parts"];
 }
 
 export async function saveMessage({
@@ -18,7 +19,7 @@ export async function saveMessage({
 		data: {
 			documentId,
 			role,
-			parts,
+			parts: parts as unknown as Prisma.InputJsonValue,
 		},
 	});
 }

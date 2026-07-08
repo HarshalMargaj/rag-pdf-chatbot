@@ -6,18 +6,20 @@ import ChatEmptyState from "./ChatEmptyState";
 import ChatInput from "./ChatInput";
 import { useChat } from "@ai-sdk/react";
 import SourcesPanel from "../SourcesPanel";
-import { DefaultChatTransport } from "ai";
+import { DefaultChatTransport, UIMessage } from "ai";
 import ChatScreen from "./ChatScreen";
 import { saveMessage } from "@/actions/saveMessage";
 
 interface ChatMainProps {
 	fileName: string | undefined;
 	documentId: string;
+	savedMessages: UIMessage[];
 }
 
-const ChatMain = ({ fileName, documentId }: ChatMainProps) => {
+const ChatMain = ({ fileName, documentId, savedMessages }: ChatMainProps) => {
 	const [userInput, setUserInput] = useState<string>("");
 	const { messages, sendMessage, status, stop } = useChat({
+		messages: savedMessages,
 		transport: new DefaultChatTransport({
 			api: "/api/chat",
 			body: {
@@ -45,16 +47,20 @@ const ChatMain = ({ fileName, documentId }: ChatMainProps) => {
 		.find(m => m.role === "assistant");
 
 	const toolPart = latestAssistantMessage?.parts.find(
-		(part): part is any => part.type === "tool-getInformation",
+		(part): part is any =>
+			part.type === "tool-getInformation" || // live streaming
+			part.type === "tool-result", // from DB
 	);
 
 	const sources =
-		toolPart?.state === "output-available" ? toolPart?.output : [];
+		toolPart?.state === "output-available" ? toolPart.output : [];
 
 	const textPart = latestAssistantMessage?.parts.find(
-		(part): part is any => part.type === "text",
+		(part): part is Extract<UIMessage["parts"][number], { type: "text" }> =>
+			part.type === "text",
 	);
-	const answerText = textPart?.state === "done" ? textPart.text : "";
+
+	const answerText = textPart?.text || "";
 
 	return (
 		<div className="flex flex-1">
