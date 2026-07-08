@@ -1,5 +1,7 @@
+"use client";
+
 import { ChatStatus, UIMessage } from "ai";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 interface ChatScreenProps {
 	messages: UIMessage[];
@@ -7,6 +9,12 @@ interface ChatScreenProps {
 }
 
 const ChatScreen = ({ messages, status }: ChatScreenProps) => {
+	const bottomRef = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+	}, [messages, status]);
+
 	return (
 		<div className=" flex flex-col flex-1 p-4 overflow-y-auto min-h-0 scroll-m-1 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-500 gap-2">
 			{messages.map((message, index) => {
@@ -64,6 +72,8 @@ const ChatScreen = ({ messages, status }: ChatScreenProps) => {
 					</div>
 				</div>
 			)}
+
+			<div ref={bottomRef} />
 		</div>
 	);
 };
