@@ -4,14 +4,27 @@ import { getRecentDocuments } from "@/actions/getRecentDocuments";
 import { Document } from "@/app/generated/prisma/client";
 import React, { useEffect, useState } from "react";
 import { BiSolidSquareRounded } from "react-icons/bi";
-import { FaPlus } from "react-icons/fa6";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
+import UploadScreen from "../uploadPanel/UploadZone";
+import axios from "axios";
+import Loader from "../Loader";
 
 const Sidebar = () => {
 	const [documents, setDocuments] = useState<Document[]>([]);
+	const [stage, setStage] = useState<"upload" | "processing">("upload");
 	const router = useRouter();
 	const params = useParams();
+
+	const handleFile = async (f: File) => {
+		setStage("processing");
+
+		const formData = new FormData();
+		formData.append("file", f);
+		const response = await axios.post("/api/upload", formData);
+
+		router.push(`/chat/${response.data.documentId}`);
+	};
 
 	useEffect(() => {
 		getRecentDocuments().then(setDocuments);
@@ -20,7 +33,7 @@ const Sidebar = () => {
 	return (
 		<div className="flex h-screen w-80 flex-col border-r border-[#1F1F27] bg-[#0F0F12] p-4 shrink-0">
 			{/* Logo */}
-			<div>
+			<div className="space-y-4">
 				<div className="flex items-center gap-3">
 					<BiSolidSquareRounded
 						className="text-indigo-600"
@@ -35,18 +48,16 @@ const Sidebar = () => {
 					</div>
 				</div>
 
-				<button
-					onClick={() => router.push("/")}
-					className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-500 cursor-pointer"
-				>
-					<FaPlus size={18} />
-					Upload PDF
-				</button>
+				{stage === "processing" ? (
+					<Loader />
+				) : (
+					<UploadScreen onFile={handleFile} />
+				)}
 			</div>
 
 			{/* Recent Files */}
-			<div className="mt-8 flex-1">
-				<h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-[#71717A]">
+			<div className="mt-4 flex-1">
+				<h2 className="mb-4 text-xs font-semibold uppercase tracking-wider text-[#71717A]">
 					Recent Documents
 				</h2>
 
