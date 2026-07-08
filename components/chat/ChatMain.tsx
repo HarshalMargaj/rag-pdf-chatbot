@@ -9,6 +9,7 @@ import SourcesPanel from "../sourcePanel/SourcesPanel";
 import { DefaultChatTransport, UIMessage } from "ai";
 import ChatScreen from "./ChatScreen";
 import { saveMessage } from "@/actions/saveMessage";
+import Sidebar from "../RecentFilesPanel/Sidebar";
 
 interface ChatMainProps {
 	fileName: string | undefined;
@@ -18,6 +19,7 @@ interface ChatMainProps {
 
 const ChatMain = ({ fileName, documentId, savedMessages }: ChatMainProps) => {
 	const [userInput, setUserInput] = useState<string>("");
+
 	const { messages, sendMessage, status, stop } = useChat({
 		messages: savedMessages,
 		transport: new DefaultChatTransport({
@@ -64,6 +66,7 @@ const ChatMain = ({ fileName, documentId, savedMessages }: ChatMainProps) => {
 
 	return (
 		<div className="flex flex-1">
+			<Sidebar />
 			<div className="flex-1 flex flex-col">
 				<ChatHeader fileName={fileName} />
 				{messages.length > 0 ? (
