@@ -37,7 +37,7 @@ const Sidebar = () => {
 
 				<button
 					onClick={() => router.push("/")}
-					className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-3 text-sm font-medium text-white transition-colors hover:bg-indigo-500 cursor-pointer"
+					className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-500 cursor-pointer"
 				>
 					<FaPlus size={18} />
 					Upload PDF
@@ -47,7 +47,7 @@ const Sidebar = () => {
 			{/* Recent Files */}
 			<div className="mt-8 flex-1">
 				<h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-[#71717A]">
-					Recent
+					Recent Documents
 				</h2>
 
 				<div className="space-y-2">
@@ -58,7 +58,7 @@ const Sidebar = () => {
 							<Link
 								href={`/chat/${document.id}`}
 								key={document.id}
-								className={`flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left transition-colors  ${isActive ? "border border-[#1F1F27] bg-[#19191e]" : "hover:bg-[#18181B]"}`}
+								className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left transition-colors  ${isActive ? "border border-[#1F1F27] bg-[#19191e]" : "hover:bg-[#18181B]"}`}
 							>
 								<div className="text-[#F87171] border border-[rgba(239,68,68,0.15)] h-10 w-10 rounded-lg text-xs flex items-center justify-center">
 									PDF

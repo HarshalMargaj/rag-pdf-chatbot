@@ -35,13 +35,13 @@ const ChatScreen = ({ messages, status }: ChatScreenProps) => {
 						className={`flex gap-2 ${message.role === "assistant" ? "self-start " : "flex-row-reverse items-center"}`}
 					>
 						<div
-							className={` ${message.role === "user" ? "text-[#A1A1AA] bg-[rgba(99,102,241,0.12)]" : "self-start text-[#A5B4FC] bg-[rgba(99,102,241,0.08)]"} border-slate-800 border w-10 h-10 flex items-center justify-center rounded-full text-sm`}
+							className={` ${message.role === "user" ? "text-[#A1A1AA] bg-[rgba(99,102,241,0.12)]" : "self-start text-[#A5B4FC] bg-[rgba(99,102,241,0.08)]"} border-slate-800 border w-10 h-10 flex items-center justify-center rounded-full text-sm shrink-0`}
 						>
 							{message.role === "user" ? "Y" : "AI"}
 						</div>
 						{(hasText || isLoading) && (
 							<div
-								className={`${message.role === "assistant" ? "border border-[#1F1F27] bg-[#0F0F12] " : "self-end bg-[#141427]  border border-[rgba(99,102,241,0.18)]"} max-w-2xl rounded-xl p-4 leading-relaxed text-[#F4F4F5]`}
+								className={`${message.role === "assistant" ? "border border-[#1F1F27] bg-[#0F0F12] " : "self-end bg-[#141427]  border border-[rgba(99,102,241,0.18)]"} max-w-[70%] rounded-xl p-4 leading-relaxed text-[#F4F4F5]`}
 							>
 								{isLoading ? (
 									<div className="flex items-center gap-2 py-2">

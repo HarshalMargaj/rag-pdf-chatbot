@@ -37,7 +37,7 @@ function SourceCard({ source, highlightText }: SourceCardProps) {
 						/>
 					</div>
 					<span className="text-[11px] text-[#52525B]">
-						{source.similarity.toFixed(2)} match
+						{(source.similarity * 100).toFixed(0)}% Relevance
 					</span>
 				</div>
 			</div>
