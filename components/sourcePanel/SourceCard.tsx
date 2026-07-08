@@ -24,17 +24,25 @@ function SourceCard({ source, highlightText }: SourceCardProps) {
 	const contentParts = regex ? source.content.split(regex) : [source.content];
 
 	return (
-		<div className="rounded-xl border border-slate-800 p-3">
+		<div className="rounded-xl border border-[#1F1F27] p-4">
 			<div className="mb-2 flex items-center justify-between">
-				<span className="rounded-md bg-violet-500/10 px-2 py-0.5 text-[11px] font-medium text-violet-400">
+				<span className="rounded-md bg-[rgba(99,102,241,0.08)] border border-[rgba(99,102,241,0.2)] px-2 py-0.5 text-[11px] font-medium text-[#A5B4FC]">
 					Page {source.pageNumber}
 				</span>
-				<span className="text-[11px] text-slate-600">
-					{source.similarity.toFixed(2)} match
-				</span>
+				<div className="flex items-center gap-2">
+					<div className="h-1 w-9 overflow-hidden rounded-full bg-zinc-800">
+						<div
+							className="h-full rounded-full bg-indigo-500"
+							style={{ width: `${source.similarity * 100}%` }}
+						/>
+					</div>
+					<span className="text-[11px] text-[#52525B]">
+						{source.similarity.toFixed(2)} match
+					</span>
+				</div>
 			</div>
 			<p
-				className={`m-0 text-sm leading-relaxed text-slate-400 ${expand ? "" : "line-clamp-6"}`}
+				className={`m-0 text-sm leading-relaxed text-[#A1A1AA] ${expand ? "" : "line-clamp-6"}`}
 			>
 				{contentParts.map((part, i) =>
 					keywords.some(
@@ -42,7 +50,7 @@ function SourceCard({ source, highlightText }: SourceCardProps) {
 					) ? (
 						<mark
 							key={i}
-							className="bg-violet-500/30 text-violet-200 rounded px-0.5"
+							className="bg-[rgba(99,102,241,0.15)] text-[#A5B4FC] rounded px-0.5"
 						>
 							{part}
 						</mark>
@@ -53,7 +61,7 @@ function SourceCard({ source, highlightText }: SourceCardProps) {
 			</p>
 			<button
 				onClick={() => setExpand(!expand)}
-				className="mt-1 text-[11px] text-violet-400 hover:text-violet-300 cursor-pointer"
+				className="mt-1 text-[11px] text-[#6366F1] hover:text-[#6366F1]/90 cursor-pointer"
 			>
 				{expand ? "Show less" : "Show more"}
 			</button>
