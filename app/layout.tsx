@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Sidebar from "@/components/RecentFilesPanel/Sidebar";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const inter = Inter({
 	subsets: ["latin"],
@@ -21,10 +21,9 @@ export default function RootLayout({
 	return (
 		<html lang="en" className={`${inter.className} h-full antialiased`}>
 			<body className="min-h-screen bg-[#09090B]">
-				<div className="flex h-full w-full">
-					<Sidebar />
+				<ClerkProvider>
 					<main className="flex-1 min-w-0">{children}</main>
-				</div>
+				</ClerkProvider>
 			</body>
 		</html>
 	);

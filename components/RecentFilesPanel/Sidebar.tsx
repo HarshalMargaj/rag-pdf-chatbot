@@ -12,6 +12,7 @@ import { useParams, useRouter } from "next/navigation";
 import UploadScreen from "../uploadPanel/UploadZone";
 import axios from "axios";
 import Loader from "../Loader";
+import { Show, UserButton } from "@clerk/nextjs";
 
 const Sidebar = () => {
 	const [documents, setDocuments] = useState<Document[]>([]);
@@ -108,6 +109,15 @@ const Sidebar = () => {
 					</div>
 				</div>
 			)}
+			<Show when="signed-in">
+				<UserButton />
+			</Show>
+			<Link
+				href={"/sign-in"}
+				className="border border-[#1F1F27] p-2 px-4 rounded-md text-[#A1A1AA] text-sm cursor-pointer bg-transparent transition-colors hover:border-zinc-700 hover:text-zinc-200 text-center"
+			>
+				Log in
+			</Link>
 		</div>
 	);
 };

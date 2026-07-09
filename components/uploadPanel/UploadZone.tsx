@@ -3,6 +3,8 @@
 import React, { useRef, useState } from "react";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { FiPlus } from "react-icons/fi";
+import { useAuth } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 interface UploadScreenProps {
 	onFile: (file: File) => void;
@@ -11,23 +13,41 @@ interface UploadScreenProps {
 
 function UploadScreen({ onFile, isOpen }: UploadScreenProps) {
 	const [drag, setDrag] = useState(false);
+	const { isSignedIn } = useAuth();
 	const inputRef = useRef<HTMLInputElement>(null);
+	const router = useRouter();
 
 	function handleDrop(e: React.DragEvent<HTMLLabelElement>) {
 		e.preventDefault();
 		setDrag(false);
+		if (!isSignedIn) {
+			router.push("/sign-in");
+			return;
+		}
 		const file = e.dataTransfer.files?.[0];
 		if (file && file.type === "application/pdf") onFile(file);
 	}
 
 	function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+		if (!isSignedIn) {
+			router.push("/sign-in");
+			return;
+		}
 		const file = e.target.files?.[0];
 		if (file) onFile(file);
+	}
+
+	function handleLabelClick(e: React.MouseEvent<HTMLLabelElement>) {
+		if (!isSignedIn) {
+			e.preventDefault();
+			router.push("/sign-in");
+		}
 	}
 
 	return (
 		<div className="flex flex-col items-center justify-center">
 			<label
+				onClick={handleLabelClick}
 				onDragOver={e => {
 					e.preventDefault();
 					setDrag(true);
