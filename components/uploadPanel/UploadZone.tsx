@@ -52,24 +52,22 @@ function UploadScreen({ onFile, isOpen }: UploadScreenProps) {
 				)}
 
 				{isOpen && (
-					<>
-						<div>
-							<p className="text-base font-medium text-zinc-200">
-								{drag ? "Drop it here!" : "Drop your PDF here"}
-							</p>
-							<p className="mt-1 text-sm text-[#52525B]">
-								or Click anywhere to browse your files
-							</p>
-						</div>
-						<input
-							ref={inputRef}
-							type="file"
-							accept="application/pdf"
-							className="hidden"
-							onChange={handleChange}
-						/>
-					</>
+					<div>
+						<p className="text-base font-medium text-zinc-200">
+							{drag ? "Drop it here!" : "Drop your PDF here"}
+						</p>
+						<p className="mt-1 text-sm text-[#52525B]">
+							or Click anywhere to browse your files
+						</p>
+					</div>
 				)}
+				<input
+					ref={inputRef}
+					type="file"
+					accept="application/pdf"
+					className="hidden"
+					onChange={handleChange}
+				/>
 			</label>
 		</div>
 	);
