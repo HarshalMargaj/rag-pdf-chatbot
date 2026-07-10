@@ -1,5 +1,7 @@
 "use client";
 
+import { BiSolidSquareRounded } from "react-icons/bi";
+
 interface ChatEmptyStateProps {
 	fileName: string | undefined;
 	setUserInput: React.Dispatch<React.SetStateAction<string>>;
@@ -14,26 +16,24 @@ const suggestedQuestions = [
 
 const ChatEmptyState = ({ fileName, setUserInput }: ChatEmptyStateProps) => {
 	return (
-		<div className="flex flex-1 flex-col items-center justify-center px-10 text-center">
-			<div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-900/40 text-orange-400 mb-4">
-				<i className="ti ti-file-type-pdf text-xl" aria-hidden="true" />
-			</div>
-			<h2 className="mb-1 text-base font-medium text-slate-200">
+		<div className="flex flex-1 flex-col items-center justify-center px-10 text-center gap-1">
+			<BiSolidSquareRounded className="text-indigo-600" size={64} />
+			<h2 className="mb-1 text-xl font-medium text-slate-200">
 				Ready to chat!
 			</h2>
-			<p className="max-w-xs text-sm text-slate-500 truncate">
+			<p className="max-w-xs text-base text-[#a1a1a1] truncate">
 				{fileName}
 			</p>
-			<p className="mt-1 max-w-xs text-xs text-slate-600">
+			<p className="mt-1 max-w-xs text-xs text-[#71717A]">
 				Ask anything about this document
 			</p>
 
-			<div className="mt-6 flex max-w-md flex-wrap justify-center gap-2">
+			<div className="mt-6 flex flex-wrap justify-center gap-2">
 				{suggestedQuestions.map((s, index) => (
 					<button
 						key={index}
 						onClick={() => setUserInput(s)}
-						className="rounded-lg border border-slate-800 bg-slate-900 px-3 py-1.5 text-xs text-slate-400 hover:border-slate-600 hover:text-slate-200 transition-colors cursor-pointer"
+						className="rounded-lg bg-[#141427]  border border-[rgba(99,102,241,0.18)] p-3 text-xs text-white hover:border-slate-800 hover:text-slate-200 transition-colors cursor-pointer"
 					>
 						{s}
 					</button>
