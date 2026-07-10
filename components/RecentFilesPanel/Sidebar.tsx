@@ -13,6 +13,7 @@ import UploadScreen from "../uploadPanel/UploadZone";
 import axios from "axios";
 import Loader from "../Loader";
 import { Show, UserButton, useUser } from "@clerk/nextjs";
+import { playSound } from "@/lib/PlaySound";
 
 const Sidebar = () => {
 	const [documents, setDocuments] = useState<Document[]>([]);
@@ -43,7 +44,10 @@ const Sidebar = () => {
 		>
 			{/* Logo */}
 			<div
-				onClick={() => setIsOpen(!isOpen)}
+				onClick={() => {
+					playSound();
+					setIsOpen(!isOpen);
+				}}
 				className="absolute -right-3.5 top-16 border border-[#1F1F27] rounded-full p-1 bg-[#0F0F12] cursor-pointer"
 			>
 				{isOpen ? (
