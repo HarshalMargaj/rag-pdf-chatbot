@@ -146,7 +146,7 @@ const Sidebar = () => {
 					{isOpen && (
 						<div>
 							<div className="text-white">{user?.fullName}</div>
-							<div className="text-[#71717A]">
+							<div className="text-[#71717A] text-sm">
 								{user?.emailAddresses[0].emailAddress}
 							</div>
 						</div>

@@ -58,7 +58,7 @@ function UploadScreen({ onFile, isOpen }: UploadScreenProps) {
 					${
 						drag
 							? "border-indigo-500 bg-indigo-500/5"
-							: "border-zinc-800 hover:border-indigo-500/50 hover:bg-indigo-500/5"
+							: "border-[#1F1F27] hover:border-indigo-500/50 hover:bg-indigo-500/5"
 					}
 				`}
 			>
