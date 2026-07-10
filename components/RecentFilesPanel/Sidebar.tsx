@@ -99,9 +99,18 @@ const Sidebar = () => {
 					</h2>
 
 					{!isSignedIn ? (
-						<p className="text-sm text-[#52525B] text-center">
+						<p className="text-sm text-[#52525B] text-center py-4">
 							Log in to see your recent documents
 						</p>
+					) : documents.length === 0 ? (
+						<div className="text-center px-4 py-4">
+							<p className="text-sm text-[#a1a1a1]">
+								No documents yet
+							</p>
+							<p className="text-xs text-[#52525B] mt-1">
+								Upload your first PDF to get started
+							</p>
+						</div>
 					) : (
 						<div className="px-4 space-y-2 overflow-y-scroll min-h-0 croll-m-1 custom-scrollbar scroll-smooth">
 							{documents.map(document => {
