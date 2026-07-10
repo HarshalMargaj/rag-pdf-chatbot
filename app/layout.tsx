@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import { dark } from "@clerk/ui/themes";
 
 const inter = Inter({
 	subsets: ["latin"],
@@ -21,7 +22,15 @@ export default function RootLayout({
 	return (
 		<html lang="en" className={`${inter.className} h-full antialiased`}>
 			<body className="min-h-screen bg-[#09090B]">
-				<ClerkProvider>
+				<ClerkProvider
+					appearance={{
+						theme: dark,
+						variables: {
+							colorPrimary: "#6366f1",
+							colorBackground: "#0F0F12",
+						},
+					}}
+				>
 					<main className="flex-1 min-w-0">{children}</main>
 				</ClerkProvider>
 			</body>
