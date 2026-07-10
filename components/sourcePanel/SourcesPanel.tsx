@@ -25,7 +25,7 @@ function SourcesPanel({ sources, answer }: SourcesPanelProps) {
 				</div>
 			</div>
 			{sources.length === 0 ? (
-				<div className="flex flex-1 items-center justify-center px-5 text-center text-xs text-slate-600 ">
+				<div className="flex flex-1 items-center justify-center px-5 text-center text-xs text-[#52525B] ">
 					Ask a question to see which passages were retrieved.
 				</div>
 			) : (

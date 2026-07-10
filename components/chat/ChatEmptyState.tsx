@@ -24,7 +24,7 @@ const ChatEmptyState = ({ fileName, setUserInput }: ChatEmptyStateProps) => {
 			<p className="max-w-xs text-base text-[#a1a1a1] truncate">
 				{fileName}
 			</p>
-			<p className="mt-1 max-w-xs text-xs text-[#71717A]">
+			<p className="mt-1 max-w-xs text-xs text-[#52525B]">
 				Ask anything about this document
 			</p>
 

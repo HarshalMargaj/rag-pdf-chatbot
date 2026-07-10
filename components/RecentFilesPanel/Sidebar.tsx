@@ -67,7 +67,7 @@ const Sidebar = () => {
 							<h1 className="font-semibold text-white">
 								PDF RAG
 							</h1>
-							<p className="text-sm text-[#71717A]">
+							<p className="text-sm text-[#52525B]">
 								Chat with your documents
 							</p>
 						</div>
