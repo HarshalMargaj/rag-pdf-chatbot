@@ -1,4 +1,18 @@
+"use client";
+
+// import Loader from "@/components/Loader";
+// import { useUploadStore } from "@/store";
+
 export default function Home() {
+	// const stage = useUploadStore(state => state.stage);
+
+	// if (stage === "processing") {
+	// 	return (
+	// 		<div className="h-full w-full flex items-center justify-center">
+	// 			<Loader />
+	// 		</div>
+	// 	);
+	// }
 	return (
 		<div className="h-full w-full flex items-center justify-center">
 			<div className="space-y-4 w-full">

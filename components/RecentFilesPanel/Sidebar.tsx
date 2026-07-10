@@ -11,17 +11,17 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import UploadScreen from "../uploadPanel/UploadZone";
 import axios from "axios";
-import Loader from "../Loader";
 import { Show, UserButton, useUser } from "@clerk/nextjs";
 import { playSound } from "@/lib/PlaySound";
+import { useUploadStore } from "@/store";
 
 const Sidebar = () => {
 	const [documents, setDocuments] = useState<Document[]>([]);
-	const [stage, setStage] = useState<"upload" | "processing">("upload");
 	const [isOpen, setIsOpen] = useState<boolean>(true);
 	const router = useRouter();
 	const params = useParams();
 	const { user, isSignedIn } = useUser();
+	const setStage = useUploadStore(state => state.setStage);
 
 	const handleFile = async (f: File) => {
 		setStage("processing");
@@ -32,6 +32,7 @@ const Sidebar = () => {
 
 		router.push(`/chat/${response.data.documentId}`);
 		setStage("upload");
+		getRecentDocuments().then(setDocuments);
 	};
 
 	useEffect(() => {
@@ -48,7 +49,7 @@ const Sidebar = () => {
 					playSound();
 					setIsOpen(!isOpen);
 				}}
-				className="absolute -right-3.5 top-16 border border-[#1F1F27] rounded-full p-1 bg-[#0F0F12] cursor-pointer"
+				className="absolute -right-3.5 top-16 border border-[#1F1F27] rounded-full p-1 bg-[#0F0F12] cursor-pointer z-50"
 			>
 				{isOpen ? (
 					<IoIosArrowBack className="text-[#a1a1a1]" />
@@ -77,12 +78,6 @@ const Sidebar = () => {
 						</div>
 					)}
 				</div>
-
-				{stage === "processing" && (
-					<div className="fixed inset-0 z-50 flex items-center justify-center">
-						<Loader />
-					</div>
-				)}
 
 				<UploadScreen onFile={handleFile} isOpen={isOpen} />
 			</div>
