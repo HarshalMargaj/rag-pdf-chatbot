@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { BiSolidSquareRounded } from "react-icons/bi";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
+import { FiLogIn } from "react-icons/fi";
 
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
@@ -36,8 +37,16 @@ const Sidebar = () => {
 	};
 
 	useEffect(() => {
-		getRecentDocuments().then(setDocuments);
-	}, []);
+		async function loadDocuments() {
+			if (isSignedIn) {
+				const docs = await getRecentDocuments();
+				setDocuments(docs);
+			} else {
+				setDocuments([]);
+			}
+		}
+		loadDocuments();
+	}, [isSignedIn]);
 
 	return (
 		<div
@@ -70,7 +79,7 @@ const Sidebar = () => {
 					{isOpen && (
 						<div>
 							<h1 className="font-semibold text-white">
-								PDF RAG
+								DocuChat
 							</h1>
 							<p className="text-sm text-[#52525B]">
 								Chat with your documents
@@ -138,9 +147,9 @@ const Sidebar = () => {
 			{!isSignedIn && (
 				<Link
 					href={"/sign-in"}
-					className="border border-[#1F1F27] p-2 px-4 rounded-md text-[#A1A1AA] text-sm cursor-pointer bg-transparent transition-colors hover:border-zinc-700 hover:text-zinc-200 text-center m-4"
+					className="border border-[#1F1F27] p-2 px-4 rounded-md text-[#A1A1AA] text-sm cursor-pointer bg-transparent transition-colors hover:border-zinc-700 hover:text-zinc-200 text-center m-4 mt-auto"
 				>
-					Log in
+					{isOpen ? "Log in" : <FiLogIn />}
 				</Link>
 			)}
 		</div>
