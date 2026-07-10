@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import React from "react";
 import { GoDotFill } from "react-icons/go";
 
@@ -9,8 +8,6 @@ interface ChatHeaderProps {
 }
 
 const ChatHeader = ({ fileName }: ChatHeaderProps) => {
-	const router = useRouter();
-
 	return (
 		<div className="flex items-center justify-between p-4 border-b border-[#1F1F27] bg-[#0F0F12]">
 			<div className="flex items-center gap-4 ">
@@ -25,12 +22,6 @@ const ChatHeader = ({ fileName }: ChatHeaderProps) => {
 					</div>
 				</div>
 			</div>
-			<button
-				onClick={() => router.push("/")}
-				className="border border-[#1F1F27] p-2 px-4 rounded-md text-[#A1A1AA] text-sm cursor-pointer bg-transparent transition-colors hover:border-zinc-700 hover:text-zinc-200"
-			>
-				New pdf
-			</button>
 		</div>
 	);
 };
