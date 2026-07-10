@@ -61,9 +61,13 @@ const ChatScreen = ({ messages, status }: ChatScreenProps) => {
 			})}
 
 			{status === "submitted" && (
-				<div className="flex flex-col gap-2 self-start">
-					<div className="text-violet-300">Assistant</div>
-					<div className="border border-slate-800 bg-slate-900 text-slate-200 max-w-2xl rounded-lg p-2 px-4 leading-relaxed">
+				<div className="flex gap-2 self-start">
+					<div
+						className={` self-start text-[#A5B4FC] bg-[rgba(99,102,241,0.08)] border-slate-800 border w-10 h-10 flex items-center justify-center rounded-full text-sm shrink-0`}
+					>
+						AI
+					</div>
+					<div className="border border-[#1F1F27] bg-[#0F0F12] text-slate-200 max-w-2xl rounded-lg p-4 leading-relaxed">
 						<div className="flex items-center gap-2 py-2">
 							<div className="w-2 h-2 bg-[#6366F1] rounded-full animate-bounce [animation-delay:-0.3s]" />
 							<div className="w-2 h-2 bg-[#6366F1] rounded-full animate-bounce [animation-delay:-0.15s]" />
