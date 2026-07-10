@@ -9,23 +9,32 @@ datasource db {
   provider = "postgresql"
 }
 
+model User {
+  userId        String            @id
+  documents     Document[]
+}
+
 model Document {
-  id          String        @id @default(uuid())
+  id          String              @id @default(uuid())
   filename    String
 
-  createdAt   DateTime      @default(now())
+  createdAt   DateTime            @default(now())
 
   chunks      DocumentChunks[]
   messages    Message[]
+  userId      String
+  user        User                @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model DocumentChunks {
-  id          String          @id @default(uuid())
+  id          String              @id @default(uuid())
   content     String
   pageNumber  Int
   embedding   Unsupported("vector(1536)")?
-  createdAt   DateTime        @default(now())
-  document    Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  createdAt   DateTime            @default(now())
+  document    Document            @relation(fields: [documentId], references: [id], onDelete: Cascade)
   documentId  String
 
   @@index([documentId])
@@ -37,13 +46,13 @@ enum MessageRole {
 }
 
 model Message {
-  id          String          @id @default(uuid())
+  id          String              @id @default(uuid())
   documentId  String
   role        MessageRole
   parts       Json
 
-  createdAt   DateTime        @default(now())
-  document    Document        @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  createdAt   DateTime            @default(now())
+  document    Document            @relation(fields: [documentId], references: [id], onDelete: Cascade)
 
   @@index([documentId])
 }

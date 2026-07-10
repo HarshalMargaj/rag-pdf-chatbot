@@ -12,7 +12,7 @@ import { useParams, useRouter } from "next/navigation";
 import UploadScreen from "../uploadPanel/UploadZone";
 import axios from "axios";
 import Loader from "../Loader";
-import { Show, UserButton } from "@clerk/nextjs";
+import { Show, UserButton, useUser } from "@clerk/nextjs";
 
 const Sidebar = () => {
 	const [documents, setDocuments] = useState<Document[]>([]);
@@ -20,6 +20,7 @@ const Sidebar = () => {
 	const [isOpen, setIsOpen] = useState<boolean>(true);
 	const router = useRouter();
 	const params = useParams();
+	const { user, isSignedIn } = useUser();
 
 	const handleFile = async (f: File) => {
 		setStage("processing");
@@ -29,6 +30,7 @@ const Sidebar = () => {
 		const response = await axios.post("/api/upload", formData);
 
 		router.push(`/chat/${response.data.documentId}`);
+		setStage("upload");
 	};
 
 	useEffect(() => {
@@ -37,7 +39,7 @@ const Sidebar = () => {
 
 	return (
 		<div
-			className={`relative flex h-screen ${isOpen ? "w-80" : "w-20"} transition-[width] duration-200 ease-in-out flex-col border-r border-[#1F1F27] bg-[#0F0F12] p-4 shrink-0 select-none`}
+			className={`relative flex h-screen ${isOpen ? "w-80" : "w-20"} transition-[width] duration-200 ease-in-out flex-col border-r border-[#1F1F27] bg-[#0F0F12] shrink-0 select-none`}
 		>
 			{/* Logo */}
 			<div
@@ -51,7 +53,7 @@ const Sidebar = () => {
 				)}
 			</div>
 
-			<div className="space-y-4">
+			<div className="space-y-4 p-4">
 				<div
 					className={` ${isOpen ? "flex items-center gap-3" : "flex items-center justify-center"}`}
 				>
@@ -72,52 +74,76 @@ const Sidebar = () => {
 					)}
 				</div>
 
-				{stage === "processing" ? (
-					<Loader />
-				) : (
-					<UploadScreen onFile={handleFile} isOpen={isOpen} />
+				{stage === "processing" && (
+					<div className="fixed inset-0 z-50 flex items-center justify-center">
+						<Loader />
+					</div>
 				)}
+
+				<UploadScreen onFile={handleFile} isOpen={isOpen} />
 			</div>
 
 			{/* Recent Files */}
 			{isOpen && (
-				<div className="mt-4 flex-1">
+				<div className="flex-1 px-4">
 					<h2 className="mb-4 text-xs font-semibold uppercase tracking-wider text-[#71717A]">
 						Recent Documents
 					</h2>
 
-					<div className="space-y-2">
-						{documents.map(document => {
-							const isActive = document.id === params.id;
+					{!isSignedIn ? (
+						<p className="text-sm text-[#52525B] text-center">
+							Log in to see your recent documents
+						</p>
+					) : (
+						<div className="space-y-2">
+							{documents.map(document => {
+								const isActive = document.id === params.id;
 
-							return (
-								<Link
-									href={`/chat/${document.id}`}
-									key={document.id}
-									className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left transition-colors  ${isActive ? "border border-[#1F1F27] bg-[#19191e]" : "hover:bg-[#18181B]"}`}
-								>
-									<div className="text-[#F87171] border border-[rgba(239,68,68,0.15)] h-10 w-10 rounded-lg text-xs flex items-center justify-center">
-										PDF
-									</div>
+								return (
+									<Link
+										href={`/chat/${document.id}`}
+										key={document.id}
+										className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left transition-colors  ${isActive ? "border border-[#1F1F27] bg-[#19191e]" : "hover:bg-[#18181B]"}`}
+									>
+										<div className="text-[#F87171] border border-[rgba(239,68,68,0.15)] h-10 w-10 rounded-lg text-xs flex items-center justify-center">
+											PDF
+										</div>
 
-									<p className="truncate text-sm text-slate-200">
-										{document.filename}
-									</p>
-								</Link>
-							);
-						})}
-					</div>
+										<p className="truncate text-sm text-slate-200">
+											{document.filename}
+										</p>
+									</Link>
+								);
+							})}
+						</div>
+					)}
 				</div>
 			)}
 			<Show when="signed-in">
-				<UserButton />
+				<div
+					className={`${isOpen ? "flex items-center gap-4" : "flex items-center justify-center"} border-t border-[#1F1F27] p-4 mt-auto`}
+				>
+					<div>
+						<UserButton />
+					</div>
+					{isOpen && (
+						<div>
+							<div className="text-white">{user?.fullName}</div>
+							<div className="text-[#71717A]">
+								{user?.emailAddresses[0].emailAddress}
+							</div>
+						</div>
+					)}
+				</div>
 			</Show>
-			<Link
-				href={"/sign-in"}
-				className="border border-[#1F1F27] p-2 px-4 rounded-md text-[#A1A1AA] text-sm cursor-pointer bg-transparent transition-colors hover:border-zinc-700 hover:text-zinc-200 text-center"
-			>
-				Log in
-			</Link>
+			{!isSignedIn && (
+				<Link
+					href={"/sign-in"}
+					className="border border-[#1F1F27] p-2 px-4 rounded-md text-[#A1A1AA] text-sm cursor-pointer bg-transparent transition-colors hover:border-zinc-700 hover:text-zinc-200 text-center m-4"
+				>
+					Log in
+				</Link>
+			)}
 		</div>
 	);
 };

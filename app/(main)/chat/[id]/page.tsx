@@ -1,6 +1,8 @@
 import { db } from "@/lib/db";
 import ChatMain from "@/components/chat/ChatMain";
 import { getMessages } from "@/actions/getMessages";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 interface PageProps {
 	params: {
@@ -9,6 +11,7 @@ interface PageProps {
 }
 
 const page = async ({ params }: PageProps) => {
+	const { userId } = await auth.protect();
 	const resolvedParams = await params;
 
 	const document = await db.document.findUnique({
@@ -16,6 +19,10 @@ const page = async ({ params }: PageProps) => {
 			id: resolvedParams.id,
 		},
 	});
+
+	if (!document || document.userId !== userId) {
+		redirect("/");
+	}
 
 	const savedMessages = await getMessages(resolvedParams.id);
 

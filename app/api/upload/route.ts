@@ -6,19 +6,21 @@ import { extractText, getDocumentProxy } from "unpdf";
 import { openai } from "@ai-sdk/openai";
 import { randomUUID } from "crypto";
 import { sanitizeText } from "@/lib/SanitizeText";
+import { auth } from "@clerk/nextjs/server";
 
 // OpenAI embedding model — 1536 dimensions
 const embeddingModel = openai.embeddingModel("text-embedding-3-small");
 
 export async function POST(req: Request) {
 	try {
+		const { userId } = await auth.protect();
 		// ── Step 1: Get PDF file from request ──────────────────────────────
 		const formData = await req.formData();
 		const file = formData.get("file") as File;
 
 		// ── Step 2: Save document record to DB ─────────────────────────────
 		const document = await db.document.create({
-			data: { filename: file.name },
+			data: { filename: file.name, userId },
 		});
 
 		// ── Step 3: Extract text from each page ────────────────────────────
