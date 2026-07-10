@@ -84,8 +84,8 @@ const Sidebar = () => {
 
 			{/* Recent Files */}
 			{isOpen && (
-				<div className="flex-1 px-4">
-					<h2 className="mb-4 text-xs font-semibold uppercase tracking-wider text-[#71717A]">
+				<div className="flex-1 min-h-0 overflow-hidden flex flex-col">
+					<h2 className="px-4 mb-4 text-xs font-semibold uppercase tracking-wider text-[#71717A]">
 						Recent Documents
 					</h2>
 
@@ -94,7 +94,7 @@ const Sidebar = () => {
 							Log in to see your recent documents
 						</p>
 					) : (
-						<div className="space-y-2">
+						<div className="px-4 space-y-2 overflow-y-scroll min-h-0 croll-m-1 custom-scrollbar scroll-smooth">
 							{documents.map(document => {
 								const isActive = document.id === params.id;
 
