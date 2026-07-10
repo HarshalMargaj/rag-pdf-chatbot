@@ -33,7 +33,7 @@ const ChatEmptyState = ({ fileName, setUserInput }: ChatEmptyStateProps) => {
 					<button
 						key={index}
 						onClick={() => setUserInput(s)}
-						className="rounded-lg bg-[#141427]  border border-[rgba(99,102,241,0.18)] p-3 text-xs text-white hover:border-slate-800 hover:text-slate-200 transition-colors cursor-pointer"
+						className="rounded-lg border border-[#1F1F27] bg-[#0F0F12] p-3 text-xs text-white hover:border-slate-800 hover:text-slate-200 transition-colors cursor-pointer"
 					>
 						{s}
 					</button>
