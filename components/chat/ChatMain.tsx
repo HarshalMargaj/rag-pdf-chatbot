@@ -67,8 +67,6 @@ const ChatMain = ({ fileName, documentId, savedMessages }: ChatMainProps) => {
 			part.type === "tool-result", // from DB
 	);
 
-	console.log("toolpart", toolPart);
-
 	const sources =
 		toolPart?.state === "output-available" ? toolPart.output : [];
 
