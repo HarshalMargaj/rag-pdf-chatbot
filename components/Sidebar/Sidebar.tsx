@@ -8,7 +8,7 @@ import { useUploadStore } from "@/store";
 import { getRecentDocuments } from "@/actions/getRecentDocuments";
 import { Document } from "@/app/generated/prisma/client";
 
-import UploadScreen from "../uploadPanel/UploadZone";
+import UploadScreen from "./SidebarUploadZone";
 import axios from "axios";
 import SidebarRecentDocuments from "./SidebarRecentDocuments";
 import SidebarUserFooter from "./SidebarUserFooter";
