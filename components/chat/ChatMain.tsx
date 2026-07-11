@@ -16,6 +16,20 @@ interface ChatMainProps {
 	savedMessages: UIMessage[];
 }
 
+interface SourceChunk {
+	content: string;
+	pageNumber: number;
+	similarity: number;
+}
+
+interface ToolOutputAvailablePart {
+	type: "tool-getInformation" | "tool-result";
+	state: "output-available";
+	toolCallId: string;
+	input: Record<string, unknown>;
+	output: SourceChunk[];
+}
+
 const ChatMain = ({ fileName, documentId, savedMessages }: ChatMainProps) => {
 	const [userInput, setUserInput] = useState<string>("");
 
@@ -48,10 +62,12 @@ const ChatMain = ({ fileName, documentId, savedMessages }: ChatMainProps) => {
 		.find(m => m.role === "assistant");
 
 	const toolPart = latestAssistantMessage?.parts.find(
-		(part): part is any =>
+		(part): part is ToolOutputAvailablePart =>
 			part.type === "tool-getInformation" || // live streaming
 			part.type === "tool-result", // from DB
 	);
+
+	console.log("toolpart", toolPart);
 
 	const sources =
 		toolPart?.state === "output-available" ? toolPart.output : [];
