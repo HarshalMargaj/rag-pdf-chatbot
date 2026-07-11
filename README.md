@@ -9,10 +9,8 @@ Upload a document, ask questions in plain English, and get accurate answers grou
 [![Vercel AI SDK](https://img.shields.io/badge/Vercel%20AI%20SDK-black?logo=vercel)](https://sdk.vercel.ai/)
 [![Clerk](https://img.shields.io/badge/Auth-Clerk-6C47FF?logo=clerk)](https://clerk.com/)
 [![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-336791?logo=postgresql)](https://www.postgresql.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 [Live Demo](#) · [Demo Video](#)
-
 
 ---
 
@@ -42,19 +40,19 @@ This project was built to demonstrate a production-shaped implementation of RAG:
 
 ## 🛠️ Tech Stack
 
-| Category | Technology |
-|---|---|
-| **Framework** | Next.js 15 (App Router) |
-| **Language** | TypeScript |
-| **Styling** | Tailwind CSS |
-| **Authentication** | Clerk |
-| **Database** | PostgreSQL (Supabase) |
-| **ORM** | Prisma |
-| **Vector Search** | pgvector |
-| **AI / LLM** | Vercel AI SDK, OpenAI |
-| **File Handling** | PDF parsing & chunking (custom pipeline) |
-| **Deployment** | Vercel |
-| **State Management** | Zustand |
+| Category             | Technology                               |
+| -------------------- | ---------------------------------------- |
+| **Framework**        | Next.js 15 (App Router)                  |
+| **Language**         | TypeScript                               |
+| **Styling**          | Tailwind CSS                             |
+| **Authentication**   | Clerk                                    |
+| **Database**         | PostgreSQL (Supabase)                    |
+| **ORM**              | Prisma                                   |
+| **Vector Search**    | pgvector                                 |
+| **AI / LLM**         | Vercel AI SDK, OpenAI                    |
+| **File Handling**    | PDF parsing & chunking (custom pipeline) |
+| **Deployment**       | Vercel                                   |
+| **State Management** | Zustand                                  |
 
 ---
 
@@ -67,19 +65,22 @@ This project was built to demonstrate a production-shaped implementation of RAG:
 ---
 
 ## 📸 Preview
+
 ### Landing Page
+
 ![Homepage](./screenshots/landing_page.png)
 
 ### Chat Interface
+
 ![Chat Screen](./screenshots/chat_window.png)
 
 ### Source Retrieval Panel
+
 ![Sources Panel](./screenshots/retrieved_chunks.png)
 
-### Collapsed Sidebar
-![Collapsed Sidebar](./screenshots/sidebar_collapse.png)
-![Collapsed Expand](./screenshots/sidebar_expand.png)
+### Sidebar
 
+![Collapsed Expand](./screenshots/sidebar_expand.png)
 
 ---
 
@@ -219,13 +220,7 @@ rag-pdf-chatbot/
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome. Feel free to check the [issues page](#).
-
----
-
-## 📄 License
-
-Distributed under the MIT License. See `LICENSE` for more information.
+Contributions, issues, and feature requests are welcome. Feel free to check the [issues page](https://github.com/HarshalMargaj/rag-pdf-chatbot/issues).
 
 ---
 
@@ -237,7 +232,5 @@ Distributed under the MIT License. See `LICENSE` for more information.
 - Email: harshal.margaj12@gmail.com
 
 ---
-
-
 
 If you found this project helpful, consider giving it a ⭐️
