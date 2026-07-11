@@ -1,5 +1,5 @@
 import GlobalUploadLoader from "@/components/GlobalUploadLoader";
-import Sidebar from "@/components/RecentFilesPanel/Sidebar";
+import Sidebar from "@/components/Sidebar/Sidebar";
 import React from "react";
 
 const mainLayout = ({ children }: { children: React.ReactNode }) => {
