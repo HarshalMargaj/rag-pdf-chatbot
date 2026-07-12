@@ -13,6 +13,16 @@ const embeddingModel = openai.embeddingModel("text-embedding-3-small");
 
 export async function POST(req: Request) {
 	try {
+		if (process.env.NODE_ENV === "production") {
+			return NextResponse.json(
+				{
+					message:
+						"Uploads are disabled in production demo. Clone the repo to run locally.",
+				},
+				{ status: 403 },
+			);
+		}
+
 		const { userId } = await auth.protect();
 		// ── Step 1: Get PDF file from request ──────────────────────────────
 		const formData = await req.formData();
