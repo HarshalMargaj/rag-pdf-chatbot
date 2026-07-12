@@ -20,7 +20,7 @@ Upload a document, ask questions in plain English, and get accurate answers grou
 
 This project was built to demonstrate a production-shaped implementation of RAG: document chunking, vector embeddings, semantic search, streaming AI responses, and secure multi-tenant data handling.
 
-> ⚠️ **Note on the live demo:** To manage API costs, live PDF uploads and chat are disabled on the deployed version. Please watch the [demo video](#) below to see the full flow in action, or follow the [setup instructions](#-getting-started) to run it locally with your own API keys.
+> ⚠️ **Note on the live demo:** To manage API costs, live PDF uploads and chat are disabled on the deployed version. Please watch the [demo video](https://drive.google.com/file/d/1OLsC_xoDz-PI0sJd30VyV4MDY7EZfOxd/view?usp=sharing) below to see the full flow in action, or follow the [setup instructions](#-getting-started) to run it locally with your own API keys.
 
 ---
 
