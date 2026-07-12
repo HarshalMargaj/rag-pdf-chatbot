@@ -10,7 +10,7 @@ Upload a document, ask questions in plain English, and get accurate answers grou
 [![Clerk](https://img.shields.io/badge/Auth-Clerk-6C47FF?logo=clerk)](https://clerk.com/)
 [![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-336791?logo=postgresql)](https://www.postgresql.org/)
 
-[Live Demo](#) · [Demo Video](#)
+[Live Demo](https://docuchat-silk.vercel.app/) · [Demo Video](https://drive.google.com/file/d/1OLsC_xoDz-PI0sJd30VyV4MDY7EZfOxd/view?usp=sharing)
 
 ---
 
@@ -60,7 +60,7 @@ This project was built to demonstrate a production-shaped implementation of RAG:
 
 **Watch the full walkthrough:** login → upload → chat → source retrieval
 
-[![Demo Video](https://img.shields.io/badge/▶-Watch%20Demo%20Video-red?style=for-the-badge)](#)
+[![Demo Video](https://img.shields.io/badge/▶-Watch%20Demo%20Video-red?style=for-the-badge)](https://drive.google.com/file/d/1OLsC_xoDz-PI0sJd30VyV4MDY7EZfOxd/view?usp=sharing)
 
 ---
 
@@ -69,6 +69,8 @@ This project was built to demonstrate a production-shaped implementation of RAG:
 ### Landing Page
 
 ![Homepage](./screenshots/landing_page.png)
+
+![MainPage](./screenshots/mainpage.png)
 
 ### Chat Interface
 
